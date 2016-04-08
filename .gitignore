@@ -34,5 +34,4 @@ node_modules/
 npm-debug.log
 .flowconfig
 .watchmanconfig
-ios
 android

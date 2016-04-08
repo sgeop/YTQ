@@ -25,16 +25,20 @@ class YTQ extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      loaded: false
+      loaded: false,
+      searchString: ''
     };
   }
   componentDidMount() {
-    this.fetchData();
+    // this.fetchData();
+    console.log("testttttttt");
   }
   fetchData() {
     fetch(REQUEST_URL)
       .then((response) => response.json())
       .then((responseData) => {
+        console.log("res " + responseData)
+        console.log("TJIS: " + this.state);
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),
           loaded: true
@@ -68,8 +72,8 @@ class YTQ extends Component {
           Search for an artist or song!
         </Text>
         <View style={styles.flowRight}>
-          <TextInput style={styles.searchInput}/>
-          <TouchableHighlight style={styles.button} onPress={this.hello}
+          <TextInput style={styles.searchInput} value={this.state.searchString}/>
+          <TouchableHighlight style={styles.button} onPress={this.fetchData.bind(this)}
               underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Go</Text>
           </TouchableHighlight>
