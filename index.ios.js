@@ -16,7 +16,9 @@ import React, {
 } from 'react-native';
 
 
-var REQUEST_URL = 'http://localhost:5300/api/search?q=eminem'
+function REQUEST_URL(q) {
+  return 'http://localhost:5300/api/search?q=' + q
+}
 
 class YTQ extends Component {
   constructor(props) {
@@ -34,10 +36,10 @@ class YTQ extends Component {
     console.log("testttttttt");
   }
   fetchData() {
-    fetch(REQUEST_URL)
+    fetch(REQUEST_URL(this.state.searchString))
       .then((response) => response.json())
       .then((responseData) => {
-        console.log("res " + responseData)
+        console.log("res " + responseData);
         console.log("TJIS: " + this.state);
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),
@@ -72,7 +74,13 @@ class YTQ extends Component {
           Search for an artist or song!
         </Text>
         <View style={styles.flowRight}>
-          <TextInput style={styles.searchInput} value={this.state.searchString}/>
+          <TextInput style={styles.searchInput}
+                     onChangeText={(text) => 
+                       this.setState({
+                         searchString: text
+                       })
+                     }
+                     value={this.state.searchString}/>
           <TouchableHighlight style={styles.button} onPress={this.fetchData.bind(this)}
               underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Go</Text>
